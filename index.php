@@ -32,27 +32,30 @@ function generator($array, $len) {
     // con array rand prendo le chiavi
     $random_keys = array_rand($array, $len);
 
-    $password = [];
+    $password_array = [];
     // prendo un valore per ogni chiave e lo pusho in array vuoto
     foreach ($random_keys as $key) {
-        $random_values[] = $array[$key];
+        $password_array[] = $array[$key];
     };
-
-    // var_dump($password);
+    
+    // converto l'array in stringa
+    $password = implode('', $password_array);
     return $password;
 };
 
 
 if(isset($_GET['numero-caratteri']) && !empty($_GET['numero-caratteri'])) {
     $generated_password = generator($array_totale, $password_len);
-    var_dump($generated_password);
+    // var_dump($generated_password);
+};
+
+
+// controllo per messaggio
+if($password_len < 8 || $password_len > 32) {
+    $message = 'ERRORE! La lunghezza deve essere tra 8 e 32 caratteri';
+}else {
+    $message = $generated_password;
 }
-
-
-
-
-
-
 
 
 
@@ -76,7 +79,7 @@ if(isset($_GET['numero-caratteri']) && !empty($_GET['numero-caratteri'])) {
 
     <div class="row justify-content-center">
         <div class="col-8 text-center border border-primary">
-            <h3>Genera una password compresa tra 8 e 32 caratteri</h3>
+            <h3><?php echo $message ?></h3>
         </div>
 
         <div class="col-8 border border-dark">
@@ -86,7 +89,7 @@ if(isset($_GET['numero-caratteri']) && !empty($_GET['numero-caratteri'])) {
                 <div class="col-12 p-5">
                     <label for="numero-caratteri">Lunghezza password:</label>
 
-                    <input type="number" id="numero-caratteri" name="numero-caratteri" min="8" max="32" />
+                    <input type="number" id="numero-caratteri" name="numero-caratteri" min="0" max="100" />
                 </div>
 
                 <!-- bottoni -->
