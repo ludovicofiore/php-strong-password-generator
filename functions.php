@@ -22,9 +22,13 @@ $caratteri_speciali = ['!', '?', '&', '%', '$', '<', '>', '^', '+', '-', '*', '/
 $array_totale = array_merge($alfabeto, $numeri, $caratteri_speciali);
 // var_dump($array_totale)
 
-// numero caratteri da usare 
-$password_len = $_GET['numero-caratteri'];
 
+if(isset($_GET['numero-caratteri']) && !empty($_GET['numero-caratteri'])) {
+    $password_len = $_GET['numero-caratteri'];
+
+    // numero caratteri da usare 
+    $generated_password = generator($array_totale, $password_len);
+};
 
 // funzione per generare password
 function generator($array, $len) {
@@ -44,17 +48,20 @@ function generator($array, $len) {
 };
 
 
-if(isset($_GET['numero-caratteri']) && !empty($_GET['numero-caratteri'])) {
-    $generated_password = generator($array_totale, $password_len);
-    // var_dump($generated_password);
-};
-
-
 // controllo per messaggio
-if($password_len < 8 || $password_len > 32) {
+if (empty($password_len)) {
+    $message = 'Genera una password compresa tra 8 e 32 caratteri';
+}else if($password_len < 8 || $password_len > 32) {
     $message = 'ERRORE! La lunghezza deve essere tra 8 e 32 caratteri';
 }else {
-    $message = $generated_password;
+    $message = 'Genera una password compresa tra 8 e 32 caratteri';
+
+    // apro session e reindirizzo su pagina risultato
+    session_start();
+
+    $_SESSION['password'] = $generated_password;
+
+    header('Location: ./landing_page.php');
 }
 
 
