@@ -18,6 +18,43 @@ $numeri = range(0,9);
 $caratteri_speciali = ['!', '?', '&', '%', '$', '<', '>', '^', '+', '-', '*', '/', '(', ')', '[', ']', '{', '}', '@', '#', '_', '='];
 // var_dump($caratteri_speciali)
 
+// array con tutti i caratteri 
+$array_totale = array_merge($alfabeto, $numeri, $caratteri_speciali);
+// var_dump($array_totale)
+
+// numero caratteri da usare 
+$password_len = $_GET['numero-caratteri'];
+
+
+// funzione per generare password
+function generator($array, $len) {
+    
+    // con array rand prendo le chiavi
+    $random_keys = array_rand($array, $len);
+
+    $password = [];
+    // prendo un valore per ogni chiave e lo pusho in array vuoto
+    foreach ($random_keys as $key) {
+        $random_values[] = $array[$key];
+    };
+
+    // var_dump($password);
+    return $password;
+};
+
+
+if(isset($_GET['numero-caratteri']) && !empty($_GET['numero-caratteri'])) {
+    $generated_password = generator($array_totale, $password_len);
+    var_dump($generated_password);
+}
+
+
+
+
+
+
+
+
 
 ?>
 
@@ -59,7 +96,6 @@ $caratteri_speciali = ['!', '?', '&', '%', '$', '<', '>', '^', '+', '-', '*', '/
                 </div>
 
             </form>
-            
             
         </div>
 
